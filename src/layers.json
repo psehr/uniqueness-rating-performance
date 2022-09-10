@@ -1,0 +1,40 @@
+{
+  "DTHR": [
+    ["DT", "HR"],
+    ["HD", "DT", "HR"],
+    ["DT", "HR", "FL"],
+    ["DT", "HR", "NF"],
+    ["HD", "DT", "HR", "FL"],
+    ["HD", "DT", "HR", "NF"]
+  ],
+  "FL": [
+    ["FL"],
+    ["FL", "HD"],
+    ["FL", "HR"],
+    ["FL", "DT"],
+    ["FL", "HD", "DT"],
+    ["FL", "HD", "HR"],
+    ["EZ", "FL"],
+    ["EZ", "HD", "FL"]
+  ],
+  "EZ": [["EZ"], ["EZ", "HD"], ["EZ", "DT"], ["EZ", "HD", "DT"]],
+  "DT": [["DT"], ["DT", "HD"], ["DT", "NF"], ["HD", "DT", "NF"]],
+  "HR": [
+    ["HR"],
+    ["HD", "HR"],
+    ["NF", "HR"],
+    ["HR", "SO"],
+    ["NF", "HD", "HR"],
+    ["NF", "SO", "HR"]
+  ],
+  "HD": [["HD"], ["HD", "NF"], ["HD", "SO"], ["HD", "SO", "NF"]],
+  "HT": [
+    ["HT"],
+    ["HT", "HD"],
+    ["HT", "HR"],
+    ["HT", "EZ"],
+    ["HT", "FL"],
+    ["HT", "NF"]
+  ],
+  "NM": [["NM"], ["NF"], ["SO"], ["NF", "SO"]]
+}
