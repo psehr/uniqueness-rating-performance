@@ -1,18 +1,26 @@
 const layerTypes = require("./layers.json");
 
 export interface score {
-  score_id: Number;
-  performance: Number;
-  mods: String[];
+  score_id: number;
+  performance: number;
+  mods: string[];
 }
 
 export interface leaderboard {
+  sorted: boolean;
   scores: score[];
 }
 
 export interface layer {
-  type: String;
-  mods: String[][];
+  type: string;
+  mods: string[][];
+}
+
+export interface uniqueness {
+  rating: number;
+  percentile: number;
+  stdev: number;
+  timestamp: string;
 }
 
 const DTHR: layer = {
@@ -65,3 +73,9 @@ export const layers = {
   HT,
   NM,
 };
+
+export const layersLiteral = ["DTHR", "FL", "EZ", "DT", "HR", "HD", "HT", "NM"];
+
+export type ObjectKey = keyof typeof layers;
+
+export type filterKey = "score_id" | "performance";
