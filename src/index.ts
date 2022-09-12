@@ -21,15 +21,7 @@ export function unique(
     leaderboard.scores.forEach((checked_score) => {
       let curr = utils.getLayer(checked_score);
       if (curr != utils.getLayer(score))
-        console.warn(
-          "Invalid score found, score_id: " +
-            checked_score.score_id +
-            ", Mods: " +
-            checked_score.mods +
-            ",  expected layer type '" +
-            utils.getLayer(score).type +
-            "'"
-        );
+        scoreErrorhandler(checked_score, score);
     });
   });
 
@@ -70,12 +62,38 @@ export function unique(
   return uniqueness;
 }
 
+function scoreErrorhandler(invalidScore: enums.score, score: enums.score) {
+  throw Error("Invalid score at score_id: " + invalidScore.score_id, {
+    cause:
+      "expected layer type '" +
+      utils.getLayer(score).type +
+      "', got '" +
+      invalidScore.mods +
+      "'",
+  });
+}
+
 // test zone
+
+const invalidScore: enums.score = {
+  score_id: 666,
+  mods: ["HT"],
+  performance: 2,
+};
 
 import { sample1 } from "./samples";
 
 console.time("sample1");
 
-console.log(unique(sample1.leaderboards, sample1.score));
+let wrongLb = sample1.leaderboards;
+wrongLb[0].scores.push(invalidScore);
+
+console.log(unique(wrongLb, sample1.score));
 
 console.timeEnd("sample1");
+
+console.time("Dummy testing");
+
+console.log(utils.evaluateCalc(800, 400));
+
+console.timeEnd("Dummy testing");

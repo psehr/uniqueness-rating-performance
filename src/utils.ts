@@ -1,4 +1,5 @@
 import * as enums from "./enums";
+import { getUniqueness } from "./maths";
 const layers = enums.layers;
 
 // returns layer from score
@@ -55,4 +56,20 @@ export function randomScoreGenerator(
   customMods?: string[]
 ) {
   return randomLeaderboardGenerator(1, customLayerType, customMods).scores[0];
+}
+
+// eval function for testing purpose on dummy values
+
+export function evaluateCalc(
+  dummyPerformance: number,
+  dummyLayerAverage: number
+) {
+  let uniqueness: enums.uniqueness = {
+    rating: getUniqueness(dummyLayerAverage, dummyPerformance),
+    average: dummyLayerAverage,
+    percentile: NaN,
+    stdev: NaN,
+    timestamp: new Date().toUTCString(),
+  };
+  return uniqueness;
 }
