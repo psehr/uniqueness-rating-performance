@@ -24,12 +24,18 @@ function getRandomInt(max: number): number {
 
 // leaderboard generator for testing
 
-export function randomLeaderboardGenerator(amount: number): enums.leaderboard {
+export function randomLeaderboardGenerator(
+  amount: number,
+  customLayerType?: string,
+  customMods?: string[]
+): enums.leaderboard {
   let leaderboard: enums.leaderboard = { sorted: false, scores: [] };
   for (let index = 0; index < amount; index++) {
-    let layerType = enums.layersLiteral[getRandomInt(8)] as enums.ObjectKey;
+    let layerType =
+      (customLayerType as enums.ObjectKey) ||
+      (enums.layersLiteral[getRandomInt(8)] as enums.ObjectKey);
     let layer = layers[layerType];
-    const modCombo = layer.mods[getRandomInt(layer.mods.length)];
+    const modCombo = customMods || layer.mods[getRandomInt(layer.mods.length)];
     const score_id = getRandomInt(1000000);
     const performance = getRandomInt(1000);
     let score: enums.score = {
@@ -44,6 +50,9 @@ export function randomLeaderboardGenerator(amount: number): enums.leaderboard {
 
 // midget
 
-export function randomScoreGenerator() {
-  return randomLeaderboardGenerator(1).scores[0];
+export function randomScoreGenerator(
+  customLayerType?: string,
+  customMods?: string[]
+) {
+  return randomLeaderboardGenerator(1, customLayerType, customMods).scores[0];
 }

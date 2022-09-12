@@ -18,9 +18,15 @@ export interface layer {
 
 export interface uniqueness {
   rating: number;
+  average: number;
   percentile: number;
   stdev: number;
   timestamp: string;
+}
+
+export interface sample {
+  score: score;
+  leaderboards: leaderboard[];
 }
 
 const DTHR: layer = {

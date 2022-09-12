@@ -9,42 +9,73 @@ export function unique(
 ): enums.uniqueness {
   let uniqueness: enums.uniqueness = {
     rating: 0,
+    average: 0,
     percentile: 0,
     stdev: 0,
     timestamp: new Date().toUTCString(),
   };
 
-  // layer checking
+  // layer checking (temp solution)
 
   leaderboards.forEach((leaderboard) => {
     leaderboard.scores.forEach((checked_score) => {
       let curr = utils.getLayer(checked_score);
       if (curr != utils.getLayer(score))
         console.warn(
-          "Invalid layer found, score_id: " +
+          "Invalid score found, score_id: " +
             checked_score.score_id +
             ", Mods: " +
-            checked_score.mods
+            checked_score.mods +
+            ",  expected layer type '" +
+            utils.getLayer(score).type +
+            "'"
         );
     });
   });
 
-  // UNFINISHED
+  // #1 Combine
 
   let leaderboard = lb.combineLeaderboards(leaderboards);
-  console.log(leaderboard);
+
+  // #2 - Sort
+
+  leaderboard = lb.sortLeaderboard(leaderboard, "performance");
+
+  // #3 - Deviate
+  uniqueness.stdev = maths.getPerformanceStandardDeviation(leaderboard);
+
+  // #4 - Compute???
+
+  uniqueness.percentile = maths.getPercentile(uniqueness.stdev);
+
+  // #5 - Reduce
+
+  leaderboard = lb.reduceLeaderboard(
+    leaderboard,
+    uniqueness.percentile,
+    score.score_id
+  );
+
+  // #6 - Average
+
+  uniqueness.average = maths.getAveragePerformance(leaderboard);
+
+  // #Final - Compare
+
+  uniqueness.rating = maths.getUniqueness(
+    uniqueness.average,
+    score.performance
+  );
 
   return uniqueness;
 }
 
 // test zone
 
-const score_test = utils.randomScoreGenerator();
-console.log(score_test);
+import { sample1 } from "./samples";
 
-let lb1 = utils.randomLeaderboardGenerator(5);
-let lb2 = utils.randomLeaderboardGenerator(5);
-let lb3 = utils.randomLeaderboardGenerator(5);
-lb1.scores.push(score_test);
-let uniqueness = unique([lb1, lb2, lb3], score_test);
-console.log(uniqueness);
+console.time("sample1");
+
+console.log(unique(sample1.leaderboards, sample1.score));
+
+console.timeEnd("sample1");
