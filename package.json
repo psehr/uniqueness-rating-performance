@@ -1,8 +1,12 @@
 {
   "name": "uniqueness-rating-performance",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Uniqueness rating performance calculations",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "npx ts-node ./src/index.ts"
