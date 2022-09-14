@@ -17,11 +17,13 @@ export interface layer {
 }
 
 export interface uniqueness {
+  score_id: number;
   rating: number;
   average: number;
   percentile: number;
   stdev: number;
   timestamp: string;
+  hash: string;
 }
 
 export interface sample {

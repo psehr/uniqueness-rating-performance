@@ -3,17 +3,25 @@ import * as utils from "./utils";
 import * as lb from "./leaderboard";
 import * as maths from "./maths";
 
+const hash_sum = require("hash-sum");
+
 export function unique(
   leaderboards: enums.leaderboard[],
   score: enums.score
 ): enums.uniqueness {
   let uniqueness: enums.uniqueness = {
+    score_id: score.score_id,
     rating: 0,
     average: 0,
     percentile: 0,
     stdev: 0,
     timestamp: new Date().toUTCString(),
+    hash: "",
   };
+
+  uniqueness.hash = hash_sum(
+    uniqueness.timestamp.toString() + uniqueness.score_id.toString()
+  );
 
   // Checking scores
 
@@ -21,7 +29,7 @@ export function unique(
     leaderboard.scores.forEach((checked_score) => {
       if (
         !checked_score.mods ||
-        !checked_score.performance ||
+        (!checked_score.performance && checked_score.performance != 0) ||
         !checked_score.score_id
       )
         wrongScoreErrorGeneric(checked_score, "Invalid score");

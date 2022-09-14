@@ -1,5 +1,6 @@
 import * as enums from "./enums";
 import { getUniqueness } from "./maths";
+const hash_sum = require("hash-sum");
 const layers = enums.layers;
 
 // returns layer from score
@@ -65,11 +66,15 @@ export function evaluateCalc(
   dummyLayerAverage: number
 ) {
   let uniqueness: enums.uniqueness = {
+    score_id: 0,
     rating: getUniqueness(dummyLayerAverage, dummyPerformance),
     average: dummyLayerAverage,
     percentile: NaN,
     stdev: NaN,
     timestamp: new Date().toUTCString(),
+    hash: "",
   };
+
+  uniqueness.hash = hash_sum(uniqueness.timestamp.toString());
   return uniqueness;
 }
