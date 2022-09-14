@@ -1,7 +1,5 @@
 # uniqueness-rating-performance
 
-### If you wish to contribute to this project, join the public Discord server: https://discord.gg/ZTPJ6qSTbF
-
 ## Table of content
 
 1. [What is uniqueness rating?](#whatis)
@@ -9,7 +7,6 @@
 3. [Layer average](#layer-average)
 4. [Uniqueness value](#uniqueness-value)
 5. [Sample results](./SAMPLES.md)
-6. [Credits](#credits)
 
 ---
 
