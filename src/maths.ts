@@ -45,7 +45,7 @@ export function getAveragePerformance(leaderboard: leaderboard) {
 // get the percentile of scores to keep from sample leaderboard's performance standard deviation
 
 export function getPercentile(stdev: number) {
-  let percentile = 2 / Math.log10(0.6 * Math.pow(stdev, 0.2)) - 8;
+  let percentile = 2 / Math.log10(0.4 * Math.pow(stdev, 0.2)) - 8;
   percentile < 2 ? (percentile = 2) : null;
   percentile > 100 ? (percentile = 100) : null;
   percentile = parseFloat(percentile.toFixed(0));
