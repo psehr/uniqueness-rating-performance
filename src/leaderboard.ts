@@ -47,8 +47,11 @@ export function reduceLeaderboard(
   };
 
   if (size) {
+    let realSize = parseInt(
+      ((size / 100) * leaderboard.scores.length).toFixed()
+    );
     reducedLeaderboard.scores = [];
-    for (var i = 0; i < size; i++) {
+    for (var i = 0; i < realSize; i++) {
       reducedLeaderboard.scores.push(leaderboard.scores[i]);
     }
   }
