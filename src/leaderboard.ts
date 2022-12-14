@@ -35,7 +35,6 @@ export function reduceLeaderboard(
   size?: number,
   score_id?: number
 ) {
-  console.log(score_id);
   leaderboard.sorted
     ? null
     : console.warn(
@@ -48,10 +47,7 @@ export function reduceLeaderboard(
   };
 
   if (size) {
-    let realSize = parseInt(
-      ((size / 100) * leaderboard.scores.length).toFixed()
-    );
-    console.log(realSize);
+    let realSize = Math.ceil((size / 100) * leaderboard.scores.length);
     reducedLeaderboard.scores = [];
     for (var i = 0; i < realSize; i++) {
       reducedLeaderboard.scores.push(leaderboard.scores[i]);
