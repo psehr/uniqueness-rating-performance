@@ -7,11 +7,11 @@ import * as utils from "./utils";
 //   performance: 2,
 // };
 
-import { sample1 } from "./samples";
+import { sample1, sample2 } from "./samples";
 
 console.time("sample1");
 
-let wrongLb = sample1.leaderboards;
+let wrongLb = sample2.leaderboards;
 // wrongLb[0].scores.push(invalidScore);
 
 console.log(unique(wrongLb, sample1.score));

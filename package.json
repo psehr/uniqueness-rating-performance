@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "start": "npx ts-node ./src/index.ts",
-    "test": "npx ts-node ./src/test.ts"
+    "test": "npm run build && node dist/test.js"
   },
   "author": "pseh",
   "license": "ISC",

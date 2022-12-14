@@ -566,3 +566,23 @@ export let sample1: enums.sample = {
     },
   ],
 };
+
+export let sample2: enums.sample = {
+  score: {
+    score_id: 3446246039,
+    mods: ["NM"],
+    performance: 999.322,
+  },
+  leaderboards: [
+    {
+      sorted: false,
+      scores: [
+        {
+          score_id: 3446246039,
+          mods: ["NM"],
+          performance: 999.322,
+        },
+      ],
+    },
+  ],
+};
