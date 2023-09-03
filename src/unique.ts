@@ -45,9 +45,14 @@ export function unique(
 
   // #2 - Sort
 
-  leaderboard = lb.sortLeaderboard(leaderboard, "performance");
+  let leaderboardStage2 = lb.sortLeaderboard(leaderboard, "performance");
+  leaderboard = {
+    sorted: leaderboardStage2.sorted,
+    scores: [...leaderboardStage2.scores]
+  }
 
   // #3 - Deviate
+
   uniqueness.stdev = maths.getPerformanceStandardDeviation(leaderboard);
 
   // #4 - Compute???
@@ -56,11 +61,21 @@ export function unique(
 
   // #5 - Reduce
 
-  leaderboard = lb.reduceLeaderboard(
+  console.log(leaderboard)
+
+
+  let leaderboardStage5 = lb.reduceLeaderboard(
     leaderboard,
     uniqueness.percentile,
-    score.score_id
+    score
   );
+
+  leaderboard = {
+    sorted: leaderboardStage5.sorted,
+    scores: [...leaderboardStage5.scores]
+  }
+
+  console.log(leaderboard)
 
   // #6 - Average
 

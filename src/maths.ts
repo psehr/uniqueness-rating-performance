@@ -32,12 +32,12 @@ export function getAveragePerformance(leaderboard: leaderboard) {
   let avg: number = 0;
   let sample: number[] = [];
 
-  leaderboard.scores.forEach((score) => {
-    sample.push(score.performance);
-  });
+  for (let index = 0; index < leaderboard.scores.length; index++) {
+    const element = leaderboard.scores[index];
+    sample.push(element.performance)
+  }
 
-  avg = sample.reduce((a, b) => a + b, 0) / sample.length;
-  avg = Math.round(avg);
+  avg = (sample.reduce((a, b) => a + b, 0)) / (sample.length ? sample.length : 1);
 
   return avg;
 }
@@ -56,8 +56,7 @@ export function getPercentile(stdev: number) {
 
 export function getUniqueness(avg: number, sample: number) {
   let uniqueness = 0;
-  avg == 0 ? (avg = Math.pow(1, -20)) : null;
-  let x = Math.round(sample) / Math.round(avg);
+  let x = sample / (avg + Math.pow(1, -20));
   uniqueness = (2.611 * Math.sqrt(Math.pow(x, 2))) / x + 62 * Math.atan(x);
   uniqueness = parseFloat(uniqueness.toFixed(2));
   return uniqueness;

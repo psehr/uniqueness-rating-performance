@@ -1,4 +1,4 @@
-import { leaderboard, filterKey } from "./enums";
+import { leaderboard, filterKey, score } from "./enums";
 
 // combines different leaderboards into a single object
 
@@ -16,9 +16,9 @@ export function combineLeaderboards(leaderboards: leaderboard[]): leaderboard {
 
 export function sortLeaderboard(
   leaderboard: leaderboard,
-  key: filterKey
+  key: filterKey,
 ): leaderboard {
-  const sortedScores = leaderboard.scores
+  let sortedScores = leaderboard.scores
     .sort((a, b) => a[key] - b[key])
     .reverse();
   let sortedLeaderboard = {
@@ -32,33 +32,30 @@ export function sortLeaderboard(
 
 export function reduceLeaderboard(
   leaderboard: leaderboard,
-  size?: number,
-  score_id?: number
+  size: number,
+  score: score
 ) {
   leaderboard.sorted
     ? null
     : console.warn(
-        "Leaderboard is not sorted, you might want to avoid reducing it"
-      );
-
-  let reducedLeaderboard: leaderboard = {
-    sorted: leaderboard.sorted,
-    scores: leaderboard.scores,
-  };
-
-  if (size) {
-    let realSize = Math.ceil((size / 100) * leaderboard.scores.length);
-    reducedLeaderboard.scores = [];
-    for (var i = 0; i < realSize; i++) {
-      reducedLeaderboard.scores.push(leaderboard.scores[i]);
-    }
-  }
-
-  if (score_id) {
-    reducedLeaderboard.scores = reducedLeaderboard.scores.filter(
-      (score) => score.score_id != score_id
+      "Leaderboard is not sorted, you might want to avoid reducing it"
     );
+  let duplicateLeaderboard = [...leaderboard.scores];
+  let idProcessedLeaderboard = [];
+
+  for (let index = 0; index < duplicateLeaderboard.length; index++) {
+    const element = duplicateLeaderboard[index];
+    element.score_id != score.score_id ? idProcessedLeaderboard.push(element) : null
   }
 
-  return reducedLeaderboard;
+  if (idProcessedLeaderboard.length == 0) idProcessedLeaderboard.push(score)
+
+  const finalSize = Math.ceil(size / 100 * idProcessedLeaderboard.length)
+
+  const finalLbScores = idProcessedLeaderboard.slice(0, finalSize)
+
+  return {
+    sorted: leaderboard.sorted,
+    scores: finalLbScores
+  }
 }
