@@ -36,6 +36,11 @@ const DTHR: layer = {
   mods: layerTypes.DTHR,
 };
 
+const DTFL: layer = {
+  type: "DTFL",
+  mods: layerTypes.DTFL
+}
+
 const FL: layer = {
   type: "FL",
   mods: layerTypes.FL,
@@ -73,6 +78,7 @@ const NM: layer = {
 
 export const layers = {
   DTHR,
+  DTFL,
   FL,
   EZ,
   DT,
@@ -82,7 +88,7 @@ export const layers = {
   NM,
 };
 
-export const layersLiteral = ["DTHR", "FL", "EZ", "DT", "HR", "HD", "HT", "NM"];
+export const layersLiteral = ["DTHR", "FL", "DTFL", "EZ", "DT", "HR", "HD", "HT", "NM"];
 
 export type ObjectKey = keyof typeof layers;
 

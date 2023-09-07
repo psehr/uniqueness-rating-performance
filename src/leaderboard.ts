@@ -59,3 +59,21 @@ export function reduceLeaderboard(
     scores: finalLbScores
   }
 }
+
+export function reduceLeaderboardTest(leaderboard: leaderboard, score: score) {
+  leaderboard.sorted
+    ? null
+    : console.warn(
+      "Leaderboard is not sorted, you might want to avoid reducing it"
+    );
+
+  let duplicateLeaderboard = [...leaderboard.scores];
+  let idProcessedLeaderboard = [];
+
+  for (let index = 0; index < duplicateLeaderboard.length; index++) {
+    const element = duplicateLeaderboard[index];
+    element.score_id != score.score_id ? idProcessedLeaderboard.push(element) : null
+  }
+
+  return { sorted: leaderboard.sorted, scores: idProcessedLeaderboard }
+}

@@ -42,6 +42,47 @@ export function getAveragePerformance(leaderboard: leaderboard) {
   return avg;
 }
 
+export function getAveragePerformanceTest(leaderboard: leaderboard, stdev: number) {
+  let avg: number = 0;
+  let sample: number[] = [];
+
+  for (let index = 0; index < leaderboard.scores.length; index++) {
+    const element = leaderboard.scores[index];
+    sample.push(element.performance)
+  }
+
+  const getSteepness = (stdev: number) => {
+    return (1 + stdev / 200)
+  }
+
+  const createWeights = (nums: number[], steepness: number) => {
+    let weights: number[] = [1]
+    for (let index = 0; index < nums.length - 1; index++) {
+      weights[index] < 0.0001 ? weights.push(0) : weights.push(weights[index] / steepness)
+    }
+    return weights
+  }
+
+  const weightedAverage = (nums: number[], weights: number[]) => {
+    const [sum, weightSum] = weights.reduce(
+      (acc, w, i) => {
+        acc[0] = acc[0] + nums[i] * w;
+        acc[1] = acc[1] + w;
+        return acc;
+      },
+      [0, 0]
+    );
+    return parseFloat((sum / weightSum).toFixed(2));
+  };
+
+  let weights = createWeights(sample, getSteepness(stdev))
+  console.log(weights)
+
+  avg = (weightedAverage(sample, weights));
+
+  return avg;
+}
+
 // get the percentile of scores to keep from sample leaderboard's performance standard deviation
 
 export function getPercentile(stdev: number) {

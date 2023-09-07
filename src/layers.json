@@ -2,17 +2,21 @@
   "DTHR": [
     ["DT", "HR"],
     ["HD", "DT", "HR"],
-    ["DT", "HR", "FL"],
     ["DT", "HR", "NF"],
-    ["HD", "DT", "HR", "FL"],
     ["HD", "DT", "HR", "NF"]
+  ],
+  "DTFL": [
+    ["FL", "DT"],
+    ["FL", "HD", "DT"],
+    ["FL", "DT", "NF"],
+    ["FL", "HD", "DT", "NF"],
+    ["DT", "HR", "FL"],
+    ["HD", "DT", "HR", "FL"]
   ],
   "FL": [
     ["FL"],
     ["FL", "HD"],
     ["FL", "HR"],
-    ["FL", "DT"],
-    ["FL", "HD", "DT"],
     ["FL", "HD", "HR"],
     ["EZ", "FL"],
     ["EZ", "HD", "FL"]

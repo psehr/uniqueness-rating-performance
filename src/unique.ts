@@ -55,18 +55,10 @@ export function unique(
 
   uniqueness.stdev = maths.getPerformanceStandardDeviation(leaderboard);
 
-  // #4 - Compute???
+  // #4 - Reduce
 
-  uniqueness.percentile = maths.getPercentile(uniqueness.stdev);
-
-  // #5 - Reduce
-
-  console.log(leaderboard)
-
-
-  let leaderboardStage5 = lb.reduceLeaderboard(
+  let leaderboardStage5 = lb.reduceLeaderboardTest(
     leaderboard,
-    uniqueness.percentile,
     score
   );
 
@@ -75,11 +67,9 @@ export function unique(
     scores: [...leaderboardStage5.scores]
   }
 
-  console.log(leaderboard)
-
   // #6 - Average
 
-  uniqueness.average = maths.getAveragePerformance(leaderboard);
+  uniqueness.average = maths.getAveragePerformanceTest(leaderboard, uniqueness.stdev)
 
   // #Final - Compare
 
