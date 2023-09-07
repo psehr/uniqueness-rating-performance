@@ -13,6 +13,8 @@ export function getPerformanceStandardDeviation(leaderboard: leaderboard) {
 
   // what the hell is this (it works)
 
+  if (!sample.length) return 0;
+
   const sum = sample?.reduce((acc, val) => acc + val);
   const { length: num } = sample;
   const median = sum / num;
