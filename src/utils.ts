@@ -7,7 +7,7 @@ const layers = enums.layers;
 
 export function getLayer(score: enums.score): enums.layer {
   const mods = score.mods;
-  if (mods.includes("HR") && (mods.includes("DT") || mods.includes("NC")) && !(mods.includes("FL")))
+  if (mods.includes("HR") && ((mods.includes("DT") || mods.includes("NC"))) && !(mods.includes("FL")))
     return layers.DTHR;
   if (mods.includes("HT")) return layers.HT;
   if (mods.includes("FL") && !(mods.includes("DT") || mods.includes("NC"))) return layers.FL;
