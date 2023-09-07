@@ -1,6 +1,6 @@
 {
   "name": "uniqueness-rating-performance",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Uniqueness rating performance calculations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
