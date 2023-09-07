@@ -82,6 +82,8 @@ export function getAveragePerformanceTest(leaderboard: leaderboard, stdev: numbe
 
   avg = (weightedAverage(sample, weights));
 
+  avg ? null : avg = 0;
+
   return avg;
 }
 
