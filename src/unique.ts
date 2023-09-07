@@ -67,7 +67,7 @@ export function unique(
     scores: [...leaderboardStage5.scores]
   }
 
-  // #6 - Average
+  // #5 - Average
 
   uniqueness.average = maths.getAveragePerformanceTest(leaderboard, uniqueness.stdev)
 
