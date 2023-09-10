@@ -5,22 +5,138 @@ import * as maths from "./maths";
 
 const hash_sum = require("hash-sum");
 
+// just in case
+// export function unique(
+//   leaderboards: enums.leaderboard[],
+//   score: enums.score
+// ): enums.uniqueness {
+//   let uniqueness: enums.uniqueness = {
+//     score_id: score.score_id,
+//     rating: 0,
+//     average: 0,
+//     percentile: 0,
+//     stdev: 0,
+//     timestamp: new Date().toUTCString(),
+//     hash: "",
+//   };
+
+//   uniqueness.hash = hash_sum(
+//     uniqueness.timestamp.toString() + uniqueness.score_id.toString()
+//   );
+
+//   // Checking scores
+
+//   leaderboards.forEach((leaderboard) => {
+//     leaderboard.scores.forEach((checked_score) => {
+//       if (
+//         !checked_score.mods ||
+//         (!checked_score.performance && checked_score.performance != 0) ||
+//         !checked_score.score_id
+//       )
+//         wrongScoreErrorGeneric(checked_score, "Invalid score");
+//       let currLayer = utils.getLayer(checked_score);
+//       if (currLayer != utils.getLayer(score))
+//         wrongScoreError(checked_score, score);
+//     });
+//   });
+
+//   // #1 Combine
+
+//   let leaderboard = lb.combineLeaderboards(leaderboards);
+
+//   // #2 - Sort
+
+//   let leaderboardStage2 = lb.sortLeaderboard(leaderboard, "performance");
+//   leaderboard = {
+//     sorted: leaderboardStage2.sorted,
+//     scores: [...leaderboardStage2.scores]
+//   }
+
+//   // #3 - Deviate
+
+//   uniqueness.stdev = maths.getPerformanceStandardDeviation(leaderboard);
+
+//   // #4 - Reduce
+
+//   let leaderboardStage5 = lb.reduceLeaderboardTest(
+//     leaderboard,
+//     score
+//   );
+
+//   leaderboard = {
+//     sorted: leaderboardStage5.sorted,
+//     scores: [...leaderboardStage5.scores]
+//   }
+
+//   // #5 - Average
+
+//   uniqueness.average = maths.getAveragePerformanceTest(leaderboard, uniqueness.stdev)
+
+//   // #Final - Compare
+
+//   uniqueness.rating = maths.getUniqueness(
+//     uniqueness.average,
+//     score.performance
+//   );
+
+//   return uniqueness;
+// }
+
 export function unique(
   leaderboards: enums.leaderboard[],
-  score: enums.score
+  score: enums.score,
+  meta: enums.Meta
 ): enums.uniqueness {
-  let uniqueness: enums.uniqueness = {
-    score_id: score.score_id,
-    rating: 0,
-    average: 0,
-    percentile: 0,
-    stdev: 0,
-    timestamp: new Date().toUTCString(),
-    hash: "",
+  let uniqueness: enums.uniquenessExperimental = {
+    score: {
+      id: score.score_id,
+      performance: score.performance,
+      combo: 0,
+      accuracy: 0,
+      rating: '',
+      hits: {
+        hit0: 0,
+        hit50: 0,
+        hit100: 0,
+        hit300: 0
+      },
+      player: {
+        id: meta.player.player_id,
+        username: meta.player.player,
+        rank: 0
+      }
+    },
+    layer: {
+      identifier: 'NM',
+      modCombos: [['']],
+      length: 0,
+      filteredLength: 0,
+      leaderboards: leaderboards
+    },
+    beatmap: {
+      id: meta.beatmap.beatmap_id,
+      set_id: meta.beatmap.beatmapset_id,
+      artist: meta.beatmap.artist,
+      title: meta.beatmap.title,
+      diffName: meta.beatmap.diffName,
+      playcount: meta.beatmap.playcount,
+      maxCombo: meta.beatmap.maxCombo,
+      rankDate: {
+        date: meta.beatmap.rankDate.date,
+        daysAgo: meta.beatmap.rankDate.daysAgo
+      }
+    },
+    results: {
+      uniqueness_rating: 0,
+      layerAvg: 0,
+      stdev: 0,
+      timestamp: new Date().toUTCString(),
+      hash: "",
+    }
   };
 
-  uniqueness.hash = hash_sum(
-    uniqueness.timestamp.toString() + uniqueness.score_id.toString()
+  uniqueness.results.hash = hash_sum(
+    uniqueness.results.timestamp.toString() + uniqueness.score.id.toString()
   );
 
   // Checking scores
@@ -51,9 +167,11 @@ export function unique(
     scores: [...leaderboardStage2.scores]
   }
 
+  uniqueness.layer.length = leaderboard.scores.length;
+
   // #3 - Deviate
 
-  uniqueness.stdev = maths.getPerformanceStandardDeviation(leaderboard);
+  uniqueness.results.stdev = maths.getPerformanceStandardDeviation(leaderboard);
 
   // #4 - Reduce
 
@@ -67,18 +185,35 @@ export function unique(
     scores: [...leaderboardStage5.scores]
   }
 
+  uniqueness.layer.filteredLength = leaderboard.scores.length;
+
   // #5 - Average
 
-  uniqueness.average = maths.getAveragePerformanceTest(leaderboard, uniqueness.stdev)
+  uniqueness.results.layerAvg = maths.getAveragePerformanceTest(leaderboard, uniqueness.results.stdev)
 
   // #Final - Compare
 
-  uniqueness.rating = maths.getUniqueness(
-    uniqueness.average,
-    score.performance
+  uniqueness.results.uniqueness_rating = maths.getUniquenessTest(
+    uniqueness.score.performance,
+    uniqueness.results.layerAvg,
+    uniqueness.layer.filteredLength,
+    uniqueness.beatmap.playcount,
+    uniqueness.beatmap.rankDate.daysAgo
   );
 
-  return uniqueness;
+  // temporary cast, awaiting next type refactoring update
+
+  let tmpUniqueness: enums.uniqueness = {
+    score_id: uniqueness.score.id,
+    rating: uniqueness.results.uniqueness_rating,
+    average: uniqueness.results.layerAvg,
+    percentile: 0,
+    stdev: uniqueness.results.stdev,
+    timestamp: uniqueness.results.timestamp,
+    hash: uniqueness.results.hash
+  }
+
+  return tmpUniqueness;
 }
 
 function wrongScoreError(invalidScore: enums.score, score: enums.score) {

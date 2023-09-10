@@ -1,4 +1,4 @@
-import { leaderboard, filterKey, score } from "./enums";
+import { leaderboard, filterKey, score, scoreExperimental, leaderboardExperimental } from "./enums";
 
 // combines different leaderboards into a single object
 
@@ -77,3 +77,22 @@ export function reduceLeaderboardTest(leaderboard: leaderboard, score: score) {
 
   return { sorted: leaderboard.sorted, scores: idProcessedLeaderboard }
 }
+
+export function reduceLeaderboardTest2(leaderboard: leaderboardExperimental, score: scoreExperimental) {
+  leaderboard.sorted
+    ? null
+    : console.warn(
+      "Leaderboard is not sorted, you might want to avoid reducing it"
+    );
+
+  let duplicateLeaderboard = [...leaderboard.scores];
+  let idProcessedLeaderboard = [];
+
+  for (let index = 0; index < duplicateLeaderboard.length; index++) {
+    const element = duplicateLeaderboard[index];
+    (element.score_id != score.score_id) && (element.user_id != score.user_id) ? idProcessedLeaderboard.push(element) : null
+  }
+
+  return { sorted: leaderboard.sorted, scores: idProcessedLeaderboard }
+}
+

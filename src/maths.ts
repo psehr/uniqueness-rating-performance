@@ -78,7 +78,6 @@ export function getAveragePerformanceTest(leaderboard: leaderboard, stdev: numbe
   };
 
   let weights = createWeights(sample, getSteepness(stdev))
-  console.log(weights)
 
   avg = (weightedAverage(sample, weights));
 
@@ -104,5 +103,18 @@ export function getUniqueness(avg: number, sample: number) {
   let x = sample / (avg + Math.pow(1, -20));
   uniqueness = (2.611 * Math.sqrt(Math.pow(x, 2))) / x + 62 * Math.atan(x);
   uniqueness = parseFloat(uniqueness.toFixed(2));
+  return uniqueness;
+}
+
+export function getUniquenessTest(a: number, b: number, l: number, p: number, r: number) {
+  let uniqueness = 0;
+  let t = 0
+  let c = 0;
+  let d = ((300 - l) / 300);
+  (a > b) ? (t = d + 1) : (t = 1 - d);
+  (l > 0) ? c = ((a + 0.1) * t) / (b + 0.1) : c = ((a + 0.1) / (b + 0.1)) * (p / Math.pow(r, 2.2));
+  uniqueness = 63.661977237 * Math.atan(c);
+  uniqueness = parseFloat(uniqueness.toFixed(2));
+  console.log({ d: d, layerLength: l, pc: p, rankedAgo: r })
   return uniqueness;
 }

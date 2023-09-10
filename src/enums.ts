@@ -6,9 +6,21 @@ export interface score {
   mods: string[];
 }
 
+export interface scoreExperimental {
+  score_id: number;
+  performance: number;
+  mods: string[];
+  user_id: number
+}
+
 export interface leaderboard {
   sorted: boolean;
   scores: score[];
+}
+
+export interface leaderboardExperimental {
+  sorted: boolean;
+  scores: scoreExperimental[];
 }
 
 export interface layer {
@@ -24,6 +36,54 @@ export interface uniqueness {
   stdev: number;
   timestamp: string;
   hash: string;
+}
+
+export interface uniquenessExperimental {
+  score: {
+    id: number,
+    performance: number,
+    combo: number,
+    accuracy: number,
+    rating: string
+    hits: {
+      hit0: number,
+      hit50: number,
+      hit100: number,
+      hit300: number
+    }
+    player: {
+      id: number,
+      username: string,
+      rank: number
+    }
+  },
+  layer: {
+    identifier: ObjectKey,
+    modCombos: [[string]]
+    length: number,
+    filteredLength: number,
+    leaderboards: leaderboard[]
+  }
+  beatmap: {
+    id: number,
+    set_id: number,
+    artist: string,
+    title: string,
+    diffName: string,
+    playcount: number,
+    maxCombo: number,
+    rankDate: {
+      date: string,
+      daysAgo: number
+    }
+  }
+  results: {
+    uniqueness_rating: number,
+    layerAvg: number,
+    stdev: number,
+    timestamp: string,
+    hash: string
+  }
 }
 
 export interface sample {
@@ -93,3 +153,35 @@ export const layersLiteral = ["DTHR", "FL", "DTFL", "EZ", "DT", "HR", "HD", "HT"
 export type ObjectKey = keyof typeof layers;
 
 export type filterKey = "score_id" | "performance";
+
+export type Meta = {
+  beatmap: {
+    beatmapset_id: number,
+    beatmap_id: number,
+    artist: string,
+    title: string,
+    diffName: string,
+    maxCombo: number,
+    playcount: number,
+    rankDate: {
+      date: string,
+      daysAgo: number
+    }
+  },
+  player: {
+    player: string,
+    player_id: number,
+  },
+  score: {
+    mods: string[],
+    pp: number,
+    accuracy: number,
+    hits: {
+      count0: number,
+      count50: number,
+      count100: number,
+      count300: number
+    },
+    combo: number
+  }
+}
