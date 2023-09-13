@@ -72,6 +72,12 @@ export function getAveragePerformance(scores: score[], stdev: number) {
   return avg;
 }
 
+export function getReliabilityIndex(layerLength: number) {
+  let r_i = parseFloat((0.06 * layerLength).toFixed(0))
+  r_i > 10 ? r_i = 10 : null;
+  return r_i;
+}
+
 export function getUniqueness(score_performance: number, layer_performance: number, layer_length: number, beatmap_playcount: number, beatmap_rankedago: number) {
   let uniqueness_rating = 0;
   let t = 0

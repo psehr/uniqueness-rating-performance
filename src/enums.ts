@@ -16,64 +16,6 @@ export interface layer {
   mods: string[][];
 }
 
-export interface uniqueness {
-  score_id: number;
-  rating: number;
-  average: number;
-  percentile: number;
-  stdev: number;
-  timestamp: string;
-  hash: string;
-}
-
-export interface uniquenessExperimental {
-  score: {
-    id: number,
-    performance: number,
-    combo: number,
-    accuracy: number,
-    rating: string
-    hits: {
-      hit0: number,
-      hit50: number,
-      hit100: number,
-      hit300: number
-    }
-    player: {
-      id: number,
-      username: string,
-      rank: number
-    }
-  },
-  layer: {
-    identifier: ObjectKey,
-    modCombos: [[string]]
-    length: number,
-    filteredLength: number,
-    leaderboards: leaderboard[]
-  }
-  beatmap: {
-    id: number,
-    set_id: number,
-    artist: string,
-    title: string,
-    diffName: string,
-    playcount: number,
-    maxCombo: number,
-    rankDate: {
-      date: string,
-      daysAgo: number
-    }
-  }
-  results: {
-    uniqueness_rating: number,
-    layerAvg: number,
-    stdev: number,
-    timestamp: string,
-    hash: string
-  }
-}
-
 export interface sample {
   score: score;
   leaderboards: leaderboard[];

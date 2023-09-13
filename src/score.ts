@@ -123,6 +123,7 @@ export class Results {
     uniqueness_rating: number
     layerAvg: number
     stdev: number
+    reliability_index: number
     timestamp: string
     hash: string
 
@@ -130,6 +131,7 @@ export class Results {
         this.uniqueness_rating = 0;
         this.layerAvg = 0;
         this.stdev = 0;
+        this.reliability_index = 0;
         this.timestamp = ''
         this.hash = '';
     }
@@ -203,6 +205,10 @@ export class UniquenessRatingScore {
         this.layer.filteredLength = filtered.length;
     }
 
+    public evalReliability() {
+        this.results.reliability_index = maths.getReliabilityIndex(this.layer.filteredLength);
+    }
+
     public deviate() {
         this.results.stdev = maths.getPerformanceStandardDeviation(this.layer.scores)
     }
@@ -268,6 +274,7 @@ export class UniquenessRatingScore {
                 uniqueness_rating: this.results.uniqueness_rating,
                 layerAvg: this.results.layerAvg,
                 stdev: this.results.stdev,
+                reliability_index: this.results.reliability_index,
                 timestamp: this.results.timestamp,
                 hash: this.results.hash,
             }
