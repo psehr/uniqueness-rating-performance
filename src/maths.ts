@@ -89,3 +89,8 @@ export function getUniqueness(score_performance: number, layer_performance: numb
   uniqueness_rating = parseFloat(uniqueness_rating.toFixed(2));
   return uniqueness_rating;
 }
+
+export function getUniquenessPlus(uniqueness_rating: number, reliability_index: number) {
+  let uniqueness_rating_plus = parseFloat((uniqueness_rating * ((reliability_index + 1) / 10)).toFixed(2))
+  return uniqueness_rating_plus
+}

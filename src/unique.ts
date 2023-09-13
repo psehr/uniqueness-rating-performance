@@ -10,4 +10,5 @@ export function unique(unrScore: score.UniquenessRatingScore) {
   unrScore.deviate() // setting stdev in results
   unrScore.average() // setting layerAvg in results
   unrScore.uniqueness_rating(); // setting unr in results
+  unrScore.uniqueness_rating_plus(); // setting unr+ in results
 }

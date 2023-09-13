@@ -121,6 +121,7 @@ export class Beatmap {
 
 export class Results {
     uniqueness_rating: number
+    uniqueness_rating_plus: number
     layerAvg: number
     stdev: number
     reliability_index: number
@@ -129,6 +130,7 @@ export class Results {
 
     constructor() {
         this.uniqueness_rating = 0;
+        this.uniqueness_rating_plus = 0;
         this.layerAvg = 0;
         this.stdev = 0;
         this.reliability_index = 0;
@@ -221,6 +223,10 @@ export class UniquenessRatingScore {
         this.results.uniqueness_rating = maths.getUniqueness(this.scoreData.performance, this.results.layerAvg, this.layer.filteredLength, this.beatmap.playStats.playcount, this.beatmap.rankDate.daysAgo)
     }
 
+    public uniqueness_rating_plus() {
+        this.results.uniqueness_rating_plus = maths.getUniquenessPlus(this.results.uniqueness_rating, this.results.reliability_index)
+    }
+
     public get get_unr_score() {
         return {
             scoreData: {
@@ -272,6 +278,7 @@ export class UniquenessRatingScore {
             },
             results: {
                 uniqueness_rating: this.results.uniqueness_rating,
+                uniqueness_rating_plus: this.results.uniqueness_rating_plus,
                 layerAvg: this.results.layerAvg,
                 stdev: this.results.stdev,
                 reliability_index: this.results.reliability_index,
