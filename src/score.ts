@@ -115,32 +115,6 @@ export class Beatmap {
             maxCombo: 0
         }
     }
-
-    public init(id: number, set_id: number, artist: string, title: string, diffName: string, playcount: number, passcount: number, maxCombo: number, date: string, daysAgo: number, ar: number, bpm: number, cs: number, od: number, drain: number) {
-        this.id = id;
-        this.set_id = set_id;
-        this.artist = artist;
-        this.title = title;
-        this.diffName = diffName;
-        this.playStats = {
-            playcount: playcount,
-            passcount: passcount
-        }
-        this.rankDate = {
-            date: date,
-            daysAgo: daysAgo
-        }
-        this.stats = {
-            ar: ar,
-            bpm: bpm,
-            cs: cs,
-            od: od,
-            drain: drain,
-            maxCombo: maxCombo
-        }
-    }
-
-
 }
 
 // contains mathematically outputed data (unr, avg, etc)
@@ -239,6 +213,68 @@ export class UniquenessRatingScore {
 
     public uniqueness_rating() {
         this.results.uniqueness_rating = maths.getUniqueness(this.scoreData.performance, this.results.layerAvg, this.layer.filteredLength, this.beatmap.playStats.playcount, this.beatmap.rankDate.daysAgo)
+    }
+
+    public get get_unr_score() {
+        return {
+            scoreData: {
+                id: this.scoreData.id,
+                performance: this.scoreData.performance,
+                combo: this.scoreData.combo,
+                accuracy: this.scoreData.accuracy,
+                rating: this.scoreData.rating,
+                mods: this.scoreData.mods,
+                hits: {
+                    hit0: this.scoreData.hits.hit0,
+                    hit50: this.scoreData.hits.hit50,
+                    hit100: this.scoreData.hits.hit100,
+                    hit300: this.scoreData.hits.hit300
+                },
+                player: {
+                    id: this.scoreData.player.id,
+                    username: this.scoreData.player.username,
+                    rank: this.scoreData.player.rank
+                }
+            },
+            layer: {
+                identifier: this.layer.identifier.toString(),
+                modCombos: this.layer.modCombos,
+                length: this.layer.length,
+                filteredLength: this.layer.filteredLength,
+                leaderboards: this.layer.leaderboards,
+                scores: this.layer.scores,
+            },
+            beatmap: {
+                id: this.beatmap.id,
+                set_id: this.beatmap.set_id,
+                artist: this.beatmap.artist,
+                title: this.beatmap.title,
+                diffName: this.beatmap.diffName,
+                playStats: {
+                    playcount: this.beatmap.playStats.playcount,
+                    passcount: this.beatmap.playStats.passcount
+                },
+                rankDate: {
+                    date: this.beatmap.rankDate.date,
+                    daysAgo: this.beatmap.rankDate.daysAgo
+                },
+                stats: {
+                    ar: this.beatmap.stats.ar,
+                    bpm: this.beatmap.stats.bpm,
+                    cs: this.beatmap.stats.cs,
+                    od: this.beatmap.stats.od,
+                    drain: this.beatmap.stats.drain,
+                    maxCombo: this.beatmap.stats.maxCombo,
+                }
+            },
+            results: {
+                uniqueness_rating: this.results.uniqueness_rating,
+                layerAvg: this.results.layerAvg,
+                stdev: this.results.stdev,
+                timestamp: this.results.timestamp,
+                hash: this.results.hash,
+            }
+        }
     }
 
     public checkScores() {
