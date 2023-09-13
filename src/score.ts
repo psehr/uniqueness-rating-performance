@@ -241,8 +241,8 @@ export class UniquenessRatingScore {
                 modCombos: this.layer.modCombos,
                 length: this.layer.length,
                 filteredLength: this.layer.filteredLength,
-                leaderboards: this.layer.leaderboards,
-                scores: this.layer.scores,
+                leaderboards: this.layer.leaderboards.toString(),
+                scores: this.layer.scores.toString(),
             },
             beatmap: {
                 id: this.beatmap.id,
