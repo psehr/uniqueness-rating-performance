@@ -1,30 +1,18 @@
 const layerTypes = require("./layers.json");
 
 export interface score {
+  user_id: number;
   score_id: number;
   performance: number;
   mods: string[];
-}
-
-export interface scoreExperimental {
-  score_id: number;
-  performance: number;
-  mods: string[];
-  user_id: number
 }
 
 export interface leaderboard {
-  sorted: boolean;
   scores: score[];
 }
 
-export interface leaderboardExperimental {
-  sorted: boolean;
-  scores: scoreExperimental[];
-}
-
 export interface layer {
-  type: string;
+  type: ObjectKey;
   mods: string[][];
 }
 

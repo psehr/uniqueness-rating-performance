@@ -1,13 +1,13 @@
-import { leaderboard } from "./enums";
+import { leaderboard, score } from "./enums";
 
 // get the performance standard deviation from sample leaderboard
 
-export function getPerformanceStandardDeviation(leaderboard: leaderboard) {
+export function getPerformanceStandardDeviation(scores: score[]) {
   let stdev: number = 0;
   let variance: number = 0;
   let sample: number[] = [];
 
-  leaderboard.scores.forEach((score) => {
+  scores.forEach((score) => {
     sample.push(score.performance);
   });
 
@@ -30,26 +30,12 @@ export function getPerformanceStandardDeviation(leaderboard: leaderboard) {
 
 // get average performance from sample leaderboard
 
-export function getAveragePerformance(leaderboard: leaderboard) {
+export function getAveragePerformance(scores: score[], stdev: number) {
   let avg: number = 0;
   let sample: number[] = [];
 
-  for (let index = 0; index < leaderboard.scores.length; index++) {
-    const element = leaderboard.scores[index];
-    sample.push(element.performance)
-  }
-
-  avg = (sample.reduce((a, b) => a + b, 0)) / (sample.length ? sample.length : 1);
-
-  return avg;
-}
-
-export function getAveragePerformanceTest(leaderboard: leaderboard, stdev: number) {
-  let avg: number = 0;
-  let sample: number[] = [];
-
-  for (let index = 0; index < leaderboard.scores.length; index++) {
-    const element = leaderboard.scores[index];
+  for (let index = 0; index < scores.length; index++) {
+    const element = scores[index];
     sample.push(element.performance)
   }
 
@@ -86,35 +72,14 @@ export function getAveragePerformanceTest(leaderboard: leaderboard, stdev: numbe
   return avg;
 }
 
-// get the percentile of scores to keep from sample leaderboard's performance standard deviation
-
-export function getPercentile(stdev: number) {
-  let percentile = 2 / Math.log10(0.4 * Math.pow(stdev, 0.2)) - 8;
-  percentile < 2 ? (percentile = 2) : null;
-  percentile > 100 ? (percentile = 100) : null;
-  percentile = parseFloat(percentile.toFixed(0));
-  return percentile;
-}
-
-// get the uniqueness-rating from a layer's average performance and the sample performance
-
-export function getUniqueness(avg: number, sample: number) {
-  let uniqueness = 0;
-  let x = sample / (avg + Math.pow(1, -20));
-  uniqueness = (2.611 * Math.sqrt(Math.pow(x, 2))) / x + 62 * Math.atan(x);
-  uniqueness = parseFloat(uniqueness.toFixed(2));
-  return uniqueness;
-}
-
-export function getUniquenessTest(a: number, b: number, l: number, p: number, r: number) {
-  let uniqueness = 0;
+export function getUniqueness(score_performance: number, layer_performance: number, layer_length: number, beatmap_playcount: number, beatmap_rankedago: number) {
+  let uniqueness_rating = 0;
   let t = 0
   let c = 0;
-  let d = ((300 - l) / 300);
-  (a > b) ? (t = d + 1) : (t = 1 - d);
-  (l > 0) ? c = ((a + 0.1) * t) / (b + 0.1) : c = ((a + 0.1) / (b + 0.1)) * (p / Math.pow(r, 2.2));
-  uniqueness = 63.661977237 * Math.atan(c);
-  uniqueness = parseFloat(uniqueness.toFixed(2));
-  console.log({ d: d, layerLength: l, pc: p, rankedAgo: r })
-  return uniqueness;
+  let d = ((300 - layer_length) / 300);
+  (score_performance > layer_performance) ? (t = d + 1) : (t = 1 - d);
+  (layer_length > 0) ? c = ((score_performance + 0.1) * t) / (layer_performance + 0.1) : c = ((score_performance + 0.1) / (layer_performance + 0.1)) * (beatmap_playcount / Math.pow(beatmap_rankedago, 2.2));
+  uniqueness_rating = 63.661977237 * Math.atan(c);
+  uniqueness_rating = parseFloat(uniqueness_rating.toFixed(2));
+  return uniqueness_rating;
 }

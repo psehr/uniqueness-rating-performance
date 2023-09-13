@@ -1,12 +1,11 @@
 import * as enums from "./enums";
 import { getUniqueness } from "./maths";
-const hash_sum = require("hash-sum");
 const layers = enums.layers;
+import * as score from "./score"
 
-// returns layer from score
+// returns layer from mods
 
-export function getLayer(score: enums.score): enums.layer {
-  const mods = score.mods;
+export function getLayer(mods: string[]): enums.layer {
   if (mods.includes("HR") && ((mods.includes("DT") || mods.includes("NC"))) && !(mods.includes("FL")))
     return layers.DTHR;
   if (mods.includes("HT")) return layers.HT;
@@ -19,63 +18,21 @@ export function getLayer(score: enums.score): enums.layer {
   return layers.NM;
 }
 
-// util
+// invalid layer error
 
-function getRandomInt(max: number): number {
-  return Math.floor(Math.random() * max);
+export function wrongScoreError(invalidScore: enums.score, score: score.ScoreData) {
+  throw Error("Invalid score layer at score_id: " + invalidScore.score_id, {
+    cause:
+      "expected layer type '" +
+      getLayer(score.mods).type +
+      "', got '" +
+      invalidScore.mods +
+      "'",
+  });
 }
 
-// leaderboard generator for testing
+// default error
 
-export function randomLeaderboardGenerator(
-  amount: number,
-  customLayerType?: string,
-  customMods?: string[]
-): enums.leaderboard {
-  let leaderboard: enums.leaderboard = { sorted: false, scores: [] };
-  for (let index = 0; index < amount; index++) {
-    let layerType =
-      (customLayerType as enums.ObjectKey) ||
-      (enums.layersLiteral[getRandomInt(8)] as enums.ObjectKey);
-    let layer = layers[layerType];
-    const modCombo = customMods || layer.mods[getRandomInt(layer.mods.length)];
-    const score_id = getRandomInt(1000000);
-    const performance = getRandomInt(1000);
-    let score: enums.score = {
-      mods: modCombo,
-      score_id: score_id,
-      performance: performance,
-    };
-    leaderboard.scores.push(score);
-  }
-  return leaderboard;
-}
-
-// midget
-
-export function randomScoreGenerator(
-  customLayerType?: string,
-  customMods?: string[]
-) {
-  return randomLeaderboardGenerator(1, customLayerType, customMods).scores[0];
-}
-
-// eval function for testing purpose on dummy values
-
-export function evaluateCalc(
-  dummyPerformance: number,
-  dummyLayerAverage: number
-) {
-  let uniqueness: enums.uniqueness = {
-    score_id: 0,
-    rating: getUniqueness(dummyLayerAverage, dummyPerformance),
-    average: dummyLayerAverage,
-    percentile: NaN,
-    stdev: NaN,
-    timestamp: new Date().toUTCString(),
-    hash: "",
-  };
-
-  uniqueness.hash = hash_sum(uniqueness.timestamp.toString());
-  return uniqueness;
+export function wrongScoreErrorGeneric(invalidScore: enums.score, msg: string) {
+  throw TypeError(msg, { cause: invalidScore });
 }
