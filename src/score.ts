@@ -238,11 +238,8 @@ export class UniquenessRatingScore {
             },
             layer: {
                 identifier: this.layer.identifier.toString(),
-                modCombos: this.layer.modCombos,
                 length: this.layer.length,
                 filteredLength: this.layer.filteredLength,
-                leaderboards: this.layer.leaderboards.toString(),
-                scores: this.layer.scores.toString(),
             },
             beatmap: {
                 id: this.beatmap.id,
