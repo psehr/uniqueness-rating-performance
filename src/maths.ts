@@ -33,7 +33,7 @@ export function getWeights(nums: number[], stdev: number) {
   let weights: number[] = [1]
   let steepness = 1 + stdev / 200
   for (let index = 0; index < nums.length - 1; index++) {
-    weights[index] < 0.0001 ? weights.push(0) : weights.push(weights[index] / steepness)
+    weights[index] < 0.01 ? weights.push(0) : weights.push(weights[index] / steepness)
   }
   return weights
 }
