@@ -228,6 +228,29 @@ export class UniquenessRatingScore {
     }
 
     public get get_unr_score() {
+        let scores: any[] = [];
+        this.layer.scores.forEach((score) => {
+            scores.push({
+                id: score.id,
+                performance: score.performance,
+                accuracy: score.accuracy,
+                combo: score.combo,
+                mods: score.mods,
+                rating: score.rating,
+                hits: {
+                    hit0: score.hits.hit0,
+                    hit50: score.hits.hit50,
+                    hit100: score.hits.hit100,
+                    hit300: score.hits.hit300
+                },
+                player: {
+                    id: score.player.id,
+                    username: score.player.username,
+                    rank: 0
+                }
+            })
+        })
+
         return {
             scoreData: {
                 id: this.scoreData.id,
@@ -252,6 +275,7 @@ export class UniquenessRatingScore {
                 identifier: this.layer.identifier.toString(),
                 length: this.layer.length,
                 filteredLength: this.layer.filteredLength,
+                scores: scores
             },
             beatmap: {
                 id: this.beatmap.id,
