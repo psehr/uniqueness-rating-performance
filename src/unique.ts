@@ -7,8 +7,10 @@ export function unique(unrScore: score.UniquenessRatingScore) {
   unrScore.layer_sort(); // sorting scores by performance
   unrScore.layer_filter(unrScore.scoreData.id, unrScore.scoreData.player.id); // filtering out player scores
   unrScore.evalReliability();
-  unrScore.deviate() // setting stdev in results
-  unrScore.average() // setting layerAvg in results
+  unrScore.deviate(); // setting stdev in results
+  unrScore.weights(); // setting weights in layer.scores
+  unrScore.cleanupScores(); // cleaning up layer.scores
+  unrScore.average(); // setting layerAvg in results
   unrScore.uniqueness_rating(); // setting unr in results
   unrScore.uniqueness_rating_plus(); // setting unr+ in results
 }
