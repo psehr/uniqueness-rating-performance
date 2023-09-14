@@ -25,6 +25,7 @@ export class ScoreData {
         username: string,
         rank: number
     }
+    weight?: number
 
     constructor() {
         this.id = 0;
@@ -213,6 +214,31 @@ export class UniquenessRatingScore {
 
     public deviate() {
         this.results.stdev = maths.getPerformanceStandardDeviation(this.layer.scores)
+    }
+
+    public weights() {
+        let sample: number[] = [];
+
+        for (let index = 0; index < this.layer.scores.length; index++) {
+            const element = this.layer.scores[index];
+            sample.push(element.performance)
+        }
+
+        let weights = maths.getWeights(sample, this.results.stdev);
+        for (let index = 0; index < weights.length; index++) {
+            const weight = weights[index];
+            this.layer.scores[index].weight = weight;
+        }
+    }
+
+    public cleanupScores() {
+        let copy = [...this.layer.scores];
+        let cleaned: ScoreData[] = [];
+        for (let index = 0; index < copy.length; index++) {
+            const element = copy[index];
+            if (element.weight) cleaned.push(element)
+        }
+        this.layer.scores = cleaned;
     }
 
     public average() {

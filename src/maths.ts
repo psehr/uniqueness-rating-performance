@@ -29,6 +29,15 @@ export function getPerformanceStandardDeviation(scores: ScoreData[]) {
   return stdev;
 }
 
+export function getWeights(nums: number[], stdev: number) {
+  let weights: number[] = [1]
+  let steepness = 1 + stdev / 200
+  for (let index = 0; index < nums.length - 1; index++) {
+    weights[index] < 0.0001 ? weights.push(0) : weights.push(weights[index] / steepness)
+  }
+  return weights
+}
+
 // get average performance from sample leaderboard
 
 export function getAveragePerformance(scores: ScoreData[], stdev: number) {
@@ -38,18 +47,6 @@ export function getAveragePerformance(scores: ScoreData[], stdev: number) {
   for (let index = 0; index < scores.length; index++) {
     const element = scores[index];
     sample.push(element.performance)
-  }
-
-  const getSteepness = (stdev: number) => {
-    return (1 + stdev / 200)
-  }
-
-  const createWeights = (nums: number[], steepness: number) => {
-    let weights: number[] = [1]
-    for (let index = 0; index < nums.length - 1; index++) {
-      weights[index] < 0.0001 ? weights.push(0) : weights.push(weights[index] / steepness)
-    }
-    return weights
   }
 
   const weightedAverage = (nums: number[], weights: number[]) => {
@@ -64,7 +61,7 @@ export function getAveragePerformance(scores: ScoreData[], stdev: number) {
     return parseFloat((sum / weightSum).toFixed(2));
   };
 
-  let weights = createWeights(sample, getSteepness(stdev))
+  let weights = getWeights(sample, stdev);
 
   avg = (weightedAverage(sample, weights));
 
