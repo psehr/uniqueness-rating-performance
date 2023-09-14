@@ -255,8 +255,37 @@ export class UniquenessRatingScore {
 
     public get get_unr_score() {
         let scores: any[] = [];
+        for (let index = 0; index < this.layer.scores.length; index++) {
+            const score = this.layer.scores[index];
+            let weight = 0;
+            (score.weight ? weight = score.weight : null)
+            scores.push({
+                scoreData: {
+
+                    id: score.id,
+                    performance: score.performance,
+                    accuracy: score.accuracy,
+                    combo: score.combo,
+                    mods: score.mods,
+                    rating: score.rating,
+                    hits: {
+                        hit0: score.hits.hit0,
+                        hit50: score.hits.hit50,
+                        hit100: score.hits.hit100,
+                        hit300: score.hits.hit300
+                    },
+                    player: {
+                        id: score.player.id,
+                        username: score.player.username,
+                        rank: 0
+                    }
+                },
+                weight: weight
+            })
+        }
         this.layer.scores.forEach((score) => {
             scores.push({
+
                 id: score.id,
                 performance: score.performance,
                 accuracy: score.accuracy,
