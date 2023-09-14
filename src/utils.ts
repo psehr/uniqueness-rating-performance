@@ -20,8 +20,8 @@ export function getLayer(mods: string[]): enums.layer {
 
 // invalid layer error
 
-export function wrongScoreError(invalidScore: enums.score, score: score.ScoreData) {
-  throw Error("Invalid score layer at score_id: " + invalidScore.score_id, {
+export function wrongScoreError(invalidScore: score.ScoreData, score: score.ScoreData) {
+  throw Error("Invalid score layer at score_id: " + invalidScore.id, {
     cause:
       "expected layer type '" +
       getLayer(score.mods).type +
@@ -33,6 +33,6 @@ export function wrongScoreError(invalidScore: enums.score, score: score.ScoreDat
 
 // default error
 
-export function wrongScoreErrorGeneric(invalidScore: enums.score, msg: string) {
+export function wrongScoreErrorGeneric(invalidScore: score.ScoreData, msg: string) {
   throw TypeError(msg, { cause: invalidScore });
 }

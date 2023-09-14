@@ -1,8 +1,9 @@
 import { leaderboard, score } from "./enums";
+import { ScoreData } from "./score";
 
 // get the performance standard deviation from sample leaderboard
 
-export function getPerformanceStandardDeviation(scores: score[]) {
+export function getPerformanceStandardDeviation(scores: ScoreData[]) {
   let stdev: number = 0;
   let variance: number = 0;
   let sample: number[] = [];
@@ -30,7 +31,7 @@ export function getPerformanceStandardDeviation(scores: score[]) {
 
 // get average performance from sample leaderboard
 
-export function getAveragePerformance(scores: score[], stdev: number) {
+export function getAveragePerformance(scores: ScoreData[], stdev: number) {
   let avg: number = 0;
   let sample: number[] = [];
 

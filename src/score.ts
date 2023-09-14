@@ -55,7 +55,7 @@ export class Layer {
     length: number;
     filteredLength: number;
     leaderboards: leaderboard[];
-    scores: score[];
+    scores: ScoreData[];
 
     constructor() {
         this.identifier = "NM";
@@ -194,12 +194,12 @@ export class UniquenessRatingScore {
         if (score_id) {
             for (let index = 0; index < copy.length; index++) {
                 const element = copy[index];
-                element.score_id != score_id ? filtered.push(element) : null;
+                element.id != score_id ? filtered.push(element) : null;
             }
         } else if (user_id) {
             for (let index = 0; index < copy.length; index++) {
                 const element = copy[index];
-                element.user_id != user_id ? filtered.push(element) : null;
+                element.player.id != user_id ? filtered.push(element) : null;
             }
         }
 
@@ -294,7 +294,7 @@ export class UniquenessRatingScore {
                 if (
                     !checked_score.mods ||
                     (!checked_score.performance && checked_score.performance != 0) ||
-                    !checked_score.score_id
+                    !checked_score.id
                 )
                     wrongScoreErrorGeneric(checked_score, "Invalid score");
                 let currLayer = getLayer(checked_score.mods);

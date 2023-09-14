@@ -1,4 +1,5 @@
 const layerTypes = require("./layers.json");
+import { ScoreData } from "./score";
 
 export interface score {
   user_id: number;
@@ -8,7 +9,7 @@ export interface score {
 }
 
 export interface leaderboard {
-  scores: score[];
+  scores: ScoreData[];
 }
 
 export interface layer {
