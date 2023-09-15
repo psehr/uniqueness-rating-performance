@@ -227,7 +227,6 @@ export class UniquenessRatingScore {
         let weights = maths.getWeights(sample, this.results.stdev);
         for (let index = 0; index < weights.length; index++) {
             const weight = weights[index];
-            console.log(this.layer.scores[index])
             this.layer.scores[index] ? this.layer.scores[index].weight = weight : null;
         }
     }
